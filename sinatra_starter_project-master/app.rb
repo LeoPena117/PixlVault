@@ -23,6 +23,7 @@ get "/" do
 	erb :index
 end
 
+#yah yeet
 get "/home" do
 	erb :home
 end
