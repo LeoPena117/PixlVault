@@ -20,7 +20,7 @@ if User.all(administrator: true).count == 0
 end
 
 get "/" do
-	erb :index
+	erb :home
 end
 
 #yah yeet
