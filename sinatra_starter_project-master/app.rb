@@ -23,10 +23,6 @@ get "/" do
 	erb :home
 end
 
-#yah yeet
-get "/home" do
-	erb :home
-end
 
 get "/dashboard" do
 	authenticate!
