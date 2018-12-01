@@ -23,6 +23,9 @@ get "/" do
 	erb :home
 end
 
+post "/upload_picture" do
+
+end
 
 get "/dashboard" do
 	authenticate!
