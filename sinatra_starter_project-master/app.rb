@@ -32,6 +32,11 @@ get "/dashboard" do
 	erb :dashboard
 end
 
+get "/upgrade" do
+	authenticate!
+	erb :upgrade
+end
+
 post '/charge' do
 	authenticate!
   # Amount in cents
