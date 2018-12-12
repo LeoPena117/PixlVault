@@ -5,12 +5,25 @@
 }
 </style>
 
-      <p id="username">Username: <username><%= @User.username %></username> </p>
-      <button id="changeUName" type="submit" class="btn btn-primary">Change UserName</button><br></br>
-      <button id="changePW" type="submit" class="btn btn-primary">Change Password</button><br></br>
-      <input id="tBox" class="hidden" type="text" name="uName">
-      <input id="pBox" class="hidden" type="text" name="PW">
-      <div id="usedUsername" class="alert-danger p-2 mb-2">Username already in use.</div>
-      <p>ID: <uid><%= @User.Id.id %></uid> </p>
+		<h2 id="username">Username: <username><%= @user.username %></username> </h2>
+		<h2 id="bio">Bio: <username><%= @user.bio %></username>
+		<button id="changeBio" class="btn btn-primary" name = "changeBio">Change Bio</button> </h2>
+		<form action="/changeBio" method="post">
+			<textarea id = "bioarea" rows="2" cols="50" name = "bio"><%= @user.bio %></textarea><br/>
+			<input id="confirmBio" class = "btn btn-primary" type="submit" value="Submit" />
+		</form>
+      <p>ID: <uid><%= @user.id %></uid> </p>
 
 </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	$("#bioarea").hide()
+	$("#confirmBio").hide()
+	$('#changeBio').on('click',function(){
+		$("#bioarea").show()
+		$("#confirmBio").show()
+		$("#changeBio").remove()
+	})
+</script>

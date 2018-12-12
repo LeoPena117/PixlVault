@@ -45,9 +45,24 @@ get "/dashboard" do
 	erb :dashboard
 end
 
+get "/settings" do
+  authenticate!
+  @user = User.first(:id => current_user.id)
+  erb :settings
+end
+
 get "/upgrade" do
 	authenticate!
 	erb :upgrade
+end
+
+post "/changeBio" do
+
+  @user = User.first(:id => current_user.id)
+  @user.bio = params[:bio]
+  @user.save
+  erb :settings
+
 end
 
 post '/charge' do
