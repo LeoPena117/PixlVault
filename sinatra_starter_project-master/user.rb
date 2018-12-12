@@ -16,9 +16,10 @@ class User
     property :email, String
     property :password, String
     property :created_at, DateTime
-    property :level, Integer
+    property :level, Integer, :default => 0
     property :administrator, Boolean, :default => false
     property :bio, String
+    property :instagram, String, :default => "Enter Your Instagram"
 
     def login(password)
     	return self.password == password
