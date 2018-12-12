@@ -12,11 +12,13 @@ end
 class User
     include DataMapper::Resource
     property :id, Serial
+    property :username, String
     property :email, String
     property :password, String
     property :created_at, DateTime
     property :pro, Boolean, :default => false
     property :administrator, Boolean, :default => false
+    property :bio, String
 
     def login(password)
     	return self.password == password
