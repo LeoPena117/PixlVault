@@ -41,6 +41,7 @@ end
 
 get "/dashboard" do
 	authenticate!
+  @user = User.first(:id => current_user.id)
 	erb :dashboard
 end
 

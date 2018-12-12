@@ -30,7 +30,11 @@ get "/logout" do
 end
 
 get "/sign_up" do
-	erb :"authentication/sign_up"
+	if current_user.nil?
+		erb :"authentication/sign_up"
+	else
+		erb :home
+	end
 end
 
 
@@ -45,12 +49,13 @@ post "/register" do
 		u = User.new
 		u.email = email.downcase
 		u.password =  password
+		u.username = username
 		u.bio = bio
 		u.save
 
 		session[:user_id] = u.id
 		flash[:success]="Thanks for signing up!"
-		erb :"authentication/successful_signup"
+		erb :home
 	else
 		flash[:error]="Incorrect fields"
 		erb :"authentication/sign_up"

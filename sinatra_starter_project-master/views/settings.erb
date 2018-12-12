@@ -1,0 +1,16 @@
+<div class="container">
+<style>
+.hidden {
+    display: none;
+}
+</style>
+
+      <p id="username">Username: <username><%= @User.username %></username> </p>
+      <button id="changeUName" type="submit" class="btn btn-primary">Change UserName</button><br></br>
+      <button id="changePW" type="submit" class="btn btn-primary">Change Password</button><br></br>
+      <input id="tBox" class="hidden" type="text" name="uName">
+      <input id="pBox" class="hidden" type="text" name="PW">
+      <div id="usedUsername" class="alert-danger p-2 mb-2">Username already in use.</div>
+      <p>ID: <uid><%= @User.Id.id %></uid> </p>
+
+</div>
