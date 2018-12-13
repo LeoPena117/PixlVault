@@ -16,7 +16,7 @@ class User
     property :email, String
     property :password, String
     property :created_at, DateTime
-    property :level, Integer, :default => 0
+    property :level, Integer, :default => 1
     property :administrator, Boolean, :default => false
     property :bio, String
     property :balance, Integer, :default => 0

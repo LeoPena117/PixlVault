@@ -46,6 +46,7 @@ if User.all(administrator: true).count == 0
 	u = User.new
 	u.email = "admin@admin.com"
 	u.password = "admin"
+  u.level = 4
 	u.administrator = true
 	u.save
 end
@@ -94,7 +95,7 @@ end
 
 get "/browse" do
   authenticate!
-  @users = User.all
+  @users = User.all(:order => [:level.desc])
   erb :browse
 end
 
