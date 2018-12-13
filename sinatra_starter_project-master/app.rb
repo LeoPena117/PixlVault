@@ -1,7 +1,7 @@
 require "sinatra"
 require 'sinatra/flash'
 require 'fileutils'
-require "mini_magick"
+require "stripe"
 
 require_relative "authentication.rb"
 
@@ -13,6 +13,34 @@ require_relative "authentication.rb"
 # authenticate! will make sure that the user is signed in, if they are not they will be redirected to the login page
 # if the user is signed in, current_user will refer to the signed in user object.
 # if they are not signed in, current_user will be nil
+
+if ENV['DATABASE_URL']
+  DataMapper::setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
+else
+  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/app.db")
+end
+
+set :publishable_key, "pk_test_TJtBcrtqDRs8zsDRTw78iokb"
+set :secret_key, "sk_test_6flurgcdvMeg2XNsyaJ843Sc"
+
+Stripe.api_key = settings.secret_key
+
+
+class Image
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :title, String
+    property :description, String
+    property :name, String
+    property :price, Integer, :default => 5
+    property :user, Integer
+end
+
+DataMapper.finalize
+User.auto_upgrade!
+Image.auto_upgrade!
+
 
 if User.all(administrator: true).count == 0
 	u = User.new
@@ -30,21 +58,29 @@ get "/upload" do
   erb :form
 end
 
-post '/save_image' do
-
+post '/upload' do
   @filename = params[:file][:filename]
   file = params[:file][:tempfile]
 
+ filepath = "./public/"+current_user.id.to_s
 
-
-  current_user.profiletype = File.extname(params[:file][:filename])
+  FileUtils.mkdir_p filepath
 
   File.open("./public/#{current_user.id}/#{@filename}", 'wb') do |f|
     f.write(file.read)
-    image = MiniMagick::Image.open(f)
-    image.format "png"
-    image.write "PROFILEPIC.png"
   end
+
+  i = Image.new
+  i.title = params["title"]
+  i.description = params["desc"]
+  i.name = @filename
+  if(params["price"].to_i)
+    i.price = params["price"]
+  end
+  i.user = current_user.id
+  i.save
+
+  printf("Hello")
 
   erb :show_image
 end
@@ -52,6 +88,7 @@ end
 get "/dashboard" do
 	authenticate!
   @user = User.first(:id => current_user.id)
+  @images = @images = Image.all(:user => current_user.id)
 	erb :dashboard
 end
 
@@ -64,18 +101,17 @@ end
 get "/user" do
   authenticate!
   @user = User.first(:id => params[:Id])
+  @images = Image.all(:user => params[:Id])
   erb :dashboard
 end
 
 get "/settings" do
   authenticate!
+  filepath = "./public/"+current_user.id.to_s
+
+  FileUtils.mkdir_p filepath
   @user = User.first(:id => current_user.id)
-  if(current_user.profiletype.nil?)
-    erb :settings
-  else
-    @filename =  File.open("./public/#{current_user.id}/PROFILEPIC.#{current_user.profiletype}")
-    erb :settings
-  end
+  erb :settings
 end
 
 get "/upgrade" do
@@ -92,19 +128,16 @@ post "/changeBio" do
 
 end
 
-post "/changeInsta" do
-
-  @user = User.first(:id => current_user.id)
-  @user.instagram = params[:insta]
-  @user.save
-  erb :settings
-
+get "/buy" do
+  @photo = Image.first(:id => params[:pictureId].to_i)
+  erb :pay
 end
 
-post '/charge' do
+post '/buy' do
 	authenticate!
   # Amount in cents
-  @amount = 500
+  @image = Image.first(:id => params[:photo])
+  @amount = @image.price*100
 
   customer = Stripe::Customer.create(
     :email => 'customer@example.com',
@@ -117,7 +150,7 @@ post '/charge' do
     :currency    => 'usd',
     :customer    => customer.id
   )
-  current_user.pro = true
-  current_user.save
-  erb :charge
+  @user = User.first(:id => @image.user.to_s)
+  @filename = @image.name
+  erb :show_image
 end

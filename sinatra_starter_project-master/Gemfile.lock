@@ -1,9 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    RubyInline (3.12.4)
-      ZenTest (~> 4.3)
-    ZenTest (4.11.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     bcrypt (3.1.11)
@@ -69,23 +66,19 @@ GEM
       data_objects (= 0.10.17)
     do_sqlite3 (0.10.17-x86-mingw32)
       data_objects (= 0.10.17)
+    faraday (0.15.3)
+      multipart-post (>= 1.2, < 3)
     fastercsv (1.5.5)
-    fastimage (2.1.5)
-    fastimage_resize (2.0.3)
-      RubyInline (>= 3.8.2)
-      fastimage (>= 1.2.9)
     ffi (1.9.25)
     ffi (1.9.25-x86-mingw32)
-    graphicsmagick (1.0.6)
-      subexec
     json (1.8.6)
     json_pure (1.8.6)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    mini_magick (4.9.2)
     multi_json (1.13.1)
+    multipart-post (2.0.0)
     mustermann (1.0.2)
     pg (1.0.0)
     pg (1.0.0-x86-mingw32)
@@ -111,7 +104,8 @@ GEM
     sqlite3-ruby (1.3.3)
       sqlite3 (>= 1.3.3)
     stringex (1.5.1)
-    subexec (0.2.3)
+    stripe (3.28.0)
+      faraday (~> 0.10)
     tilt (2.0.8)
     uuidtools (2.1.5)
 
@@ -123,14 +117,12 @@ DEPENDENCIES
   data_mapper
   dm-postgres-adapter
   dm-sqlite-adapter
-  fastimage_resize
-  graphicsmagick
-  mini_magick
   pg
   rerun
   sinatra
   sinatra-flash
   sqlite3-ruby
+  stripe
 
 BUNDLED WITH
    1.16.2

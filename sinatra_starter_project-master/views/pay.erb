@@ -1,7 +1,7 @@
-<form action="/charge" method="post" class="payment">
+<form action="/buy?photo=<%= @photo.id %>" method="post" class="payment">
     <article>
       <label class="amount">
-        <span>Amount: $5.00</span>
+        <span>Amount: <%= @photo.price %></span>
       </label>
     </article>
 

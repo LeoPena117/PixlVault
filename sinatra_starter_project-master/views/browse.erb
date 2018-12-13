@@ -8,9 +8,6 @@
 
 	<% for User in @users %>
 <tr>
-	<td rowspan="2">
-		<img class="thumb" src="" width = "150px">
-	</td>
 	<td><a type="text" name="Id" href="/user?Id=<%= User.id %>"><%= User.username %></a></td>
 </tr>
 <tr>

@@ -4,7 +4,6 @@
     display: none;
 }
 </style>
-        <img src="<%= @filename %>" />
 
 		<h2 id="username">Username: <username><%= @user.username %></username> </h2>
 		<h2 id="bio">Bio: <username><%= @user.bio %></username>
@@ -15,17 +14,12 @@
 			<input id="confirmBio" class = "btn btn-primary" type="submit" value="Submit" />
 		</form><br/>
 
-		<h2 id="insta">Instagram: <username><%= @user.instagram %></username>
 
-		<button id="changeInsta" class="btn btn-primary" name = "changeInsta">Change Instagram</button> </h2>
-		<form id="instaForm" action="/changeInsta" method="post">
-			<textarea id = "instaText" rows="1" cols="20" name = "insta"><%= @user.instagram %></textarea><br/>
-			<input id="confirmInsta" class = "btn btn-primary" type="submit" value="Submit" />
-		</form>
-
-		<h1>Upload Profile Pic</h1>
-			<p>Be sure to name your file "PROFILEPIC"</p>
-        <form action="/save_image" method="POST" enctype="multipart/form-data">
+		<h1>Upload Pic to sell</h1>
+		<form action="/upload" method="POST" enctype="multipart/form-data">
+			  Picture Name: <input type="text" name="title"><br>
+			  Picture description: <input type="text" name="desc"><br>
+			  Picture Price (in cents): <input type="text" name="price"><br>
             <input type="file" name="file">
             <input type="submit" value="Upload image">
         </form>

@@ -3,9 +3,7 @@ gem 'sinatra'
 gem 'data_mapper'
 gem 'sinatra-flash'
 gem 'rerun'
-gem 'fastimage_resize'
-gem 'graphicsmagick'
-gem 'mini_magick'
+gem 'stripe'
 
 group :development do
   gem "sqlite3-ruby"
