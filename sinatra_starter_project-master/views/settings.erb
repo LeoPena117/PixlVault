@@ -4,20 +4,35 @@
     display: none;
 }
 </style>
+        <img src="<%= @filename %>" />
 
 		<h2 id="username">Username: <username><%= @user.username %></username> </h2>
 		<h2 id="bio">Bio: <username><%= @user.bio %></username>
 		<button id="changeBio" class="btn btn-primary" name = "changeBio">Change Bio</button> </h2>
+
 		<form id="bioform" action="/changeBio" method="post">
 			<textarea id = "bioarea" rows="2" cols="50" name = "bio"><%= @user.bio %></textarea><br/>
 			<input id="confirmBio" class = "btn btn-primary" type="submit" value="Submit" />
 		</form><br/>
+
 		<h2 id="insta">Instagram: <username><%= @user.instagram %></username>
+
 		<button id="changeInsta" class="btn btn-primary" name = "changeInsta">Change Instagram</button> </h2>
-		<form action="/changeInsta" method="post">
-			<input type="text" id = "instaText" name = "bio"><%= @user.instagram %></textarea><br/>
+		<form id="instaForm" action="/changeInsta" method="post">
+			<textarea id = "instaText" rows="1" cols="20" name = "insta"><%= @user.instagram %></textarea><br/>
 			<input id="confirmInsta" class = "btn btn-primary" type="submit" value="Submit" />
 		</form>
+
+		<h1>Upload Profile Pic</h1>
+			<p>Be sure to name your file "PROFILEPIC"</p>
+        <form action="/save_image" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload image">
+        </form>
+
+
+
+
       <p>ID: <uid><%= @user.id %></uid> </p>
 
 </div>
@@ -28,8 +43,11 @@
 	$("#bioarea").hide()
 	$("#bioform").hide()
 	$("#confirmBio").hide()
+
 	$("#instaText").hide()
+	$("#instaForm").hide()
 	$("#confirmInsta").hide()
+
 	$('#changeBio').on('click',function(){
 		$("#bioarea").show()
 		$("#bioform").show()
@@ -37,8 +55,9 @@
 		$("#changeBio").remove()
 	})
 	$('#changeInsta').on('click',function(){
-		$("#bioarea").show()
-		$("#confirmBio").show()
-		$("#changeBio").remove()
+		$("#instaForm").show()
+		$("#confirmInsta").show()
+		$("#instaText").show()
+		$("#changeInsta").remove()
 	})
 </script>

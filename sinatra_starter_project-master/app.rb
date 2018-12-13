@@ -1,5 +1,8 @@
 require "sinatra"
 require 'sinatra/flash'
+require 'fileutils'
+require "mini_magick"
+
 require_relative "authentication.rb"
 
 #the following urls are included in authentication.rb
@@ -32,8 +35,15 @@ post '/save_image' do
   @filename = params[:file][:filename]
   file = params[:file][:tempfile]
 
-  File.open("./public/#{@filename}", 'wb') do |f|
+
+
+  current_user.profiletype = File.extname(params[:file][:filename])
+
+  File.open("./public/#{current_user.id}/#{@filename}", 'wb') do |f|
     f.write(file.read)
+    image = MiniMagick::Image.open(f)
+    image.format "png"
+    image.write "PROFILEPIC.png"
   end
 
   erb :show_image
@@ -45,10 +55,27 @@ get "/dashboard" do
 	erb :dashboard
 end
 
+get "/browse" do
+  authenticate!
+  @users = User.all
+  erb :browse
+end
+
+get "/user" do
+  authenticate!
+  @user = User.first(:id => params[:Id])
+  erb :dashboard
+end
+
 get "/settings" do
   authenticate!
   @user = User.first(:id => current_user.id)
-  erb :settings
+  if(current_user.profiletype.nil?)
+    erb :settings
+  else
+    @filename =  File.open("./public/#{current_user.id}/PROFILEPIC.#{current_user.profiletype}")
+    erb :settings
+  end
 end
 
 get "/upgrade" do
@@ -60,6 +87,15 @@ post "/changeBio" do
 
   @user = User.first(:id => current_user.id)
   @user.bio = params[:bio]
+  @user.save
+  erb :settings
+
+end
+
+post "/changeInsta" do
+
+  @user = User.first(:id => current_user.id)
+  @user.instagram = params[:insta]
   @user.save
   erb :settings
 

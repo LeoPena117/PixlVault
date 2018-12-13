@@ -20,6 +20,7 @@ class User
     property :administrator, Boolean, :default => false
     property :bio, String
     property :instagram, String, :default => "Enter Your Instagram"
+    property :profiletype, String
 
     def login(password)
     	return self.password == password
