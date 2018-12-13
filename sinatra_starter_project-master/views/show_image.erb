@@ -1,0 +1,11 @@
+<html>
+    <head>
+        <title>Show Image</title>
+    </head>
+    <body>
+        <h1>Download the image now</h1>
+		<button class="btn btn-primary"><a id="download" href="<%= @user.id %>/<%= @filename %>" download > Download Link </a></button>
+        <img src="<%= @user.id %>/<%= @filename %>" />
+    </body>
+</html>
+

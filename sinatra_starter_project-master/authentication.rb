@@ -30,23 +30,35 @@ get "/logout" do
 end
 
 get "/sign_up" do
-	erb :"authentication/sign_up"
+	if current_user.nil?
+		erb :"authentication/sign_up"
+	else
+		erb :home
+	end
 end
 
 
 post "/register" do
 	email = params[:email]
 	password = params[:password]
+	username = params[:username]
+	passwordconf = params[:passwordconf]
+	bio = params[:bio]
 
-	u = User.new
-	u.email = email.downcase
-	u.password =  password
-	u.save
+	if (!(email.nil?&&password.nil?&&bio.nil?&&username.nil?)&&(password==passwordconf))
+		u = User.new
+		u.email = email.downcase
+		u.password =  password
+		u.username = username
+		u.bio = bio
+		u.save
 
-	session[:user_id] = u.id
-
-	erb :"authentication/successful_signup"
-
+		session[:user_id] = u.id
+		erb :home
+	else
+		flash[:error]="Incorrect fields"
+		erb :"authentication/sign_up"
+	end
 end
 
 #This method will return the user object of the currently signed in user

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%= erb :navigation %>
 
 
@@ -7,3 +8,31 @@
 bro0wasasdf;lkajs;dlfkja;sld
 
 </html>
+=======
+<div class="container">
+
+<form method="GET" action="">
+
+<table class="table">
+
+<tbody>
+
+	<% for User in @users %>
+		<% if !User.administrator %>
+<tr>
+	<td><a type="text" name="Id" href="/user?Id=<%= User.id %>"><%= User.username %></a></td>
+</tr>
+<tr>
+	<td colspan="4"> <%= User.bio %> </td></tr>
+</tr>
+	<% end %>
+<% end %>
+
+</tbody>
+</table>
+
+
+</form>
+</div>
+
+>>>>>>> f32fe36140810e575566d7d17fee53de128f51a4

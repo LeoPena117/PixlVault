@@ -5,20 +5,28 @@
         <div class="card card-signin my-5">
           <div class="card-body">
             <h5 class="card-title text-center">Sign up</h5>
-            <form class="form-signin" action="/process_login" method="POST">
+            <form class="form-signin" action="/register" method="POST">
               <div class="form-label-group">
                 <input type="text" id="inputEmail" class="form-control" placeholder="Email address" name="email" required autofocus>
               </div>
               <br/>
               <div class="form-label-group">
-                <input type="text" id="inputPassword" class="form-control" placeholder="Password" name= "password" required>
+                <input type="text" id="username" class="form-control" placeholder="Username" name= "username" required>
               </div>
               <br/>
               <div class="form-label-group">
-                <input type="text" id="inputPassword" class="form-control" placeholder="Confirm Password" name= "password" required>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" name= "password" required>
               </div>
               <br/>
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+              <div class="form-label-group">
+                <input type="password" id="passwordConfirm" class="form-control" placeholder="Confirm Password" name= "passwordconf" required>
+              </div>
+              <br/>
+              <div class="form-label-group">
+                <input type="text" id="bio" class="form-control" placeholder="Small Bio" name= "bio" required>
+              </div>
+              <br/>
+              <button id = "signup" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign up</button>
               <hr class="my-4">
             </form>
           </div>
