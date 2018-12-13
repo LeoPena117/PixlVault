@@ -36,6 +36,10 @@ get "/upgrade" do
 	authenticate!
 	erb :upgrade
 end
+get "/browse" do
+	authenticate!
+	erb :browse
+end
 
 post '/charge' do
 	authenticate!
