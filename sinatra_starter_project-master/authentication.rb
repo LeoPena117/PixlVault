@@ -54,7 +54,6 @@ post "/register" do
 		u.save
 
 		session[:user_id] = u.id
-		flash[:success]="Thanks for signing up!"
 		erb :home
 	else
 		flash[:error]="Incorrect fields"

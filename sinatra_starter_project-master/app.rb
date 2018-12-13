@@ -33,7 +33,7 @@ class Image
   property :title, String
     property :description, String
     property :name, String
-    property :price, Integer, :default => 5
+    property :price, Float, :default => 5
     property :user, Integer
 end
 
@@ -80,7 +80,7 @@ post '/upload' do
   i.user = current_user.id
   i.save
 
-  printf("Hello")
+  @user = current_user
 
   erb :show_image
 end
@@ -114,9 +114,9 @@ get "/settings" do
   erb :settings
 end
 
-get "/upgrade" do
+get "/plans" do
 	authenticate!
-	erb :upgrade
+	erb :plans
 end
 
 post "/changeBio" do
@@ -126,6 +126,15 @@ post "/changeBio" do
   @user.save
   erb :settings
 
+end
+
+get "/delete" do
+  authenticate!
+  i = Image.first(:id => params[:pictureId].to_i)
+  i.destroy
+  @user = User.first(:id => current_user.id)
+  @images = @images = Image.all(:user => current_user.id)
+  erb :dashboard
 end
 
 get "/buy" do
@@ -151,6 +160,53 @@ post '/buy' do
     :customer    => customer.id
   )
   @user = User.first(:id => @image.user.to_s)
+  @user.balance += @image.price/1.2
+  @user.save
   @filename = @image.name
   erb :show_image
+end
+
+get '/upgrade' do 
+  authenticate!
+  @u = User.first(:id => current_user.id)
+  @plan = params[:plan]
+  if params[:plan]=="pro"
+    @amount = 15
+  elsif params[:plan]=="gold"
+    @amount = 29
+  end
+
+    erb :upgradepay
+end
+
+post '/upgrade' do
+  authenticate!
+  # Amount in cents
+  user = current_user
+  if params[:plan]=="pro"
+    @amount = 1500
+  elsif params[:plan]=="gold"
+    @amount = 2900
+  end
+
+  customer = Stripe::Customer.create(
+    :email => 'customer@example.com',
+    :source  => params[:stripeToken]
+  )
+
+  charge = Stripe::Charge.create(
+    :amount      => @amount,
+    :description => 'Sinatra Charge',
+    :currency    => 'usd',
+    :customer    => customer.id
+  )
+
+  if params[:plan]=="pro"
+    current_user.level = 2
+  elsif params[:plan]=="gold"
+    current_user.level = 3
+  end
+    
+  current_user.save
+  erb :home
 end
