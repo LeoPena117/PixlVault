@@ -20,8 +20,8 @@ else
   DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/app.db")
 end
 
-set :publishable_key, "pk_test_TJtBcrtqDRs8zsDRTw78iokb"
-set :secret_key, "sk_test_6flurgcdvMeg2XNsyaJ843Sc"
+set :publishable_key, "pk_live_bcTgurl69wlFB9IxADL3W7lV"
+set :secret_key, "sk_live_THzQ9xz0Zd7RsegYSTCpIHt8"
 
 Stripe.api_key = settings.secret_key
 
@@ -33,7 +33,7 @@ class Image
   property :title, String
     property :description, String
     property :name, String
-    property :price, Float, :default => 5
+    property :price, Integer, :default => 5
     property :user, Integer
 end
 
@@ -71,6 +71,7 @@ post '/upload' do
     f.write(file.read)
   end
 
+
   i = Image.new
   i.title = params["title"]
   i.description = params["desc"]
@@ -89,7 +90,7 @@ end
 get "/dashboard" do
 	authenticate!
   @user = User.first(:id => current_user.id)
-  @images = @images = Image.all(:user => current_user.id)
+  @images = Image.all(:user => current_user.id)
 	erb :dashboard
 end
 
@@ -102,7 +103,26 @@ end
 get "/user" do
   authenticate!
   @user = User.first(:id => params[:Id])
-  @images = Image.all(:user => params[:Id])
+  @all = Image.all(:user => params[:Id])
+
+  @images = []
+
+  if @user.level == 1
+    @all.each_with_index {|item,index| 
+      if(index<10)
+        @images.push(item)
+      end
+    }
+  elsif @user.level == 2
+    @all.each_with_index {|item,index| 
+      if(index<20)
+        @images.push(item)
+      end
+    }
+  else
+    @images = @all
+  end
+
   erb :dashboard
 end
 
@@ -116,7 +136,6 @@ get "/settings" do
 end
 
 get "/plans" do
-	authenticate!
 	erb :plans
 end
 
@@ -132,6 +151,10 @@ end
 get "/delete" do
   authenticate!
   i = Image.first(:id => params[:pictureId].to_i)
+  if(i.nil?)
+    flash[:error] = "Invalid picture deletion"
+    redirect"/"
+  end
   i.destroy
   @user = User.first(:id => current_user.id)
   @images = @images = Image.all(:user => current_user.id)
@@ -147,7 +170,7 @@ post '/buy' do
 	authenticate!
   # Amount in cents
   @image = Image.first(:id => params[:photo])
-  @amount = @image.price*100
+  @amount = @image.price*100.to_i
 
   customer = Stripe::Customer.create(
     :email => 'customer@example.com',

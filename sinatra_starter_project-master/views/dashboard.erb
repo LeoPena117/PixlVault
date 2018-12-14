@@ -48,15 +48,15 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
     <hr>
 
   <!-- First Photo Grid-->
-  <div class="w3-row-padding">
+  <div class="w3-row-padding" align ="center">
       <% for image in @images %>
     <div class="card" style="width: 18rem;">
   	   <img class="card-img-top" src="<%= @user.id %>/<%= image.name %>" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title"><%= image.title %></h5>
             <p class="card-text"><%= image.description %></p>
-            <button type = "submit" class="btn btn-primary"><a href ="/buy?pictureId=<%= image.id %>">$<%= image.price %></a></button>
-            <% if @user.id == current_user.id %>
+            <button type = "submit" class="btn btn-primary"><a href ="/buy?pictureId=<%= image.id %>">$<%= "%.2f" % image.price %></a></button>
+            <% if @user.id == current_user.id || current_user.administrator %>
             <button type = "submit" class="btn btn-primary"><a href ="/delete?pictureId=<%= image.id %>">Delete Image</a></button>
             <% end %>
           </div>
