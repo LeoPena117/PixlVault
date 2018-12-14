@@ -1,7 +1,8 @@
-<form action="/upgrade?plan=<%=@plan%>" method="post" class="payment">
+<div class = "container" align ="center">
+  <form action="/upgrade?plan=<%=@plan%>" method="post" class="payment">
     <article>
       <label class="amount">
-        <span>Amount: <%= @amount %></span>
+        <span>Amount: $ <%= "%.2f" % @amount %></span>
       </label>
     </article>
 
@@ -11,3 +12,4 @@
             data-amount="<%= @amount*100 %>"
             data-locale="auto"></script>
   </form>
+</div>

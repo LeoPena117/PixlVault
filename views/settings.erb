@@ -14,13 +14,13 @@
 			<input id="confirmBio" class = "btn btn-primary" type="submit" value="Submit" />
 		</form><br/>
 
-		<h2 id="balance">Balance: $<%= @user.balance %></h2>
+		<h2 id="balance">Balance: $<%= "%.2f" % @user.balance %></h2>
 
 		<h1>Upload Pic to sell</h1>
 		<form action="/upload" method="POST" enctype="multipart/form-data">
-			  Picture Name: <input type="text" name="title"><br>
-			  Picture description: <input type="text" name="desc"><br>
-			  Picture Price: <input type="text" name="price"><br>
+			  Picture Name: <input type="text" name="title" required><br>
+			  Picture description: <input type="text" name="desc" required><br>
+			  Picture Price (Round Integer): <input type="text" name="price"><br>
             <input type="file" name="file">
             <input type="submit" value="Upload image">
         </form>
@@ -39,20 +39,11 @@
 	$("#bioform").hide()
 	$("#confirmBio").hide()
 
-	$("#instaText").hide()
-	$("#instaForm").hide()
-	$("#confirmInsta").hide()
-
 	$('#changeBio').on('click',function(){
 		$("#bioarea").show()
 		$("#bioform").show()
 		$("#confirmBio").show()
 		$("#changeBio").remove()
 	})
-	$('#changeInsta').on('click',function(){
-		$("#instaForm").show()
-		$("#confirmInsta").show()
-		$("#instaText").show()
-		$("#changeInsta").remove()
-	})
+	
 </script>

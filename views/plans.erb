@@ -1,0 +1,65 @@
+<%= erb :navigation %>
+
+
+
+<!DOCTYPE html>
+<html>
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4">Pricing</h1>
+      <p class="lead">With a one time payment, you can go to the top of the browse page when someone is looking for photographers.</p>
+    </div>
+
+<div class="container">
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Free Plan</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$0</h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Display 10 photos</li>
+            </ul>
+            <% if !current_user %>
+              <a href ="/sign_up"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free!</button></a>
+            <% else %>
+              <button type="button" class="btn btn-lg btn-block btn-outline-primary">Already Signed up!</button>
+            <% end %>
+          </div>
+        </div>
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Pro Plan</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$15 </h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Display 20 photos</li>
+            </ul>
+            <% if (current_user)&&(current_user.level>=2) %>
+              <button type="submit" class="btn btn-lg btn-block btn-primary">Already an Upgraded User!</button>
+            <% else %>
+              <a href ="/upgrade?plan=pro"><button type="submit" class="btn btn-lg btn-block btn-primary">Get Started</button></a>
+            <% end %>
+          </div>
+        </div>
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Gold Plan</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$29</h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Display 100% photos</li>
+            </ul>
+            <% if (current_user) && (current_user.level>=3) %>
+              <button type="submit" class="btn btn-lg btn-block btn-primary">Already an Upgraded User!</button>
+            <% else %>
+              <a href ="/upgrade?plan=gold"><button type="button" class="btn btn-lg btn-block btn-primary">Get started</button></a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+</html>

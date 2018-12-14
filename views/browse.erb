@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-<%= erb :navigation %>
-
-
-
-<!DOCTYPE html>
-<html>
-bro0wasasdf;lkajs;dlfkja;sld
-
-</html>
-=======
 <div class="container">
 
 <form method="GET" action="">
@@ -20,7 +9,13 @@ bro0wasasdf;lkajs;dlfkja;sld
 	<% for User in @users %>
 		<% if !User.administrator %>
 <tr>
-	<td><a type="text" name="Id" href="/user?Id=<%= User.id %>"><%= User.username %></a></td>
+	<td><h1><a type="text" name="Id" href="/user?Id=<%= User.id %>"><%= User.username %></a></h1>
+		<% if User.level == 2 %>
+		<span class="badge badge-primary">Pro</span>
+		<% elsif User.level == 3 %>
+		<span class="badge badge-warning">Gold</span>
+		<% end %>
+</td>
 </tr>
 <tr>
 	<td colspan="4"> <%= User.bio %> </td></tr>
@@ -35,4 +30,3 @@ bro0wasasdf;lkajs;dlfkja;sld
 </form>
 </div>
 
->>>>>>> f32fe36140810e575566d7d17fee53de128f51a4

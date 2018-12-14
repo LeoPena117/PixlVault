@@ -1,13 +1,15 @@
-<form action="/buy?photo=<%= @photo.id %>" method="post" class="payment">
+<div class = "container" align = "center">
+  <form action="/buy?photo=<%= @photo.id %>" method="post" class="payment">
     <article>
       <label class="amount">
-        <span>Amount: <%= @photo.price %></span>
+        <span>Amount: <%= "%.2f" % @photo.price %></span>
       </label>
     </article>
 
     <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
             data-key="<%= settings.publishable_key %>"
-            data-description="A month's subscription"
+            data-description="Buying a photo"
             data-amount="<%= @photo.price*100 %>"
             data-locale="auto"></script>
   </form>
+</div>

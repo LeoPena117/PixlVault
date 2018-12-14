@@ -19,7 +19,7 @@ class User
     property :level, Integer, :default => 1
     property :administrator, Boolean, :default => false
     property :bio, String
-    property :balance, Integer, :default => 0
+    property :balance, Float, :default => 0
 
     def login(password)
     	return self.password == password
